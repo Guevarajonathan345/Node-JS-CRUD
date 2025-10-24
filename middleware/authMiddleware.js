@@ -32,3 +32,14 @@ export const protect = async (req, res, next) => {
         return res.status(401).json({message: 'No autorizado, no hay token'});
     }
 };
+
+//Verifica que el usuario autenticado es 'admin'
+ export const admin = (req, res, next)=> {
+    //La información del usuario (incluido el rol) fue adjuntada por 'protect'
+    if (req.user && req.user.rol === 'admin') {
+        next();
+    } else {
+        //// 403 Forbidden: El usuario está logueado, pero no tiene los permisos necesarios.
+        res.status(403).json({message: 'No autorizado como administrador'});
+    }
+ };
